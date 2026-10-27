@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio of Parthiksinh Vaghela, full stack .NET engineer: front-end demo and original code samples.">
+<title>Parthiksinh Vaghela Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single readable column; header band, live UI demo, tabbed code samples, experience, skills. */
+:root{
+  --bg:#f5f7f8; --surface:#ffffff; --fg:#14232a; --muted:#52666e; --line:#d6dfe3;
+  --accent:#1f6f7f; --accent-soft:#dcecef; --accent-fg:#ffffff;
+  --code-bg:#0f1d23; --code-fg:#d9e6ea; --code-dim:#7f9aa3;
+  --ok:#1d7a46; --ok-soft:#dff1e6; --warn:#9a5b00; --warn-soft:#fbecd0; --bad:#b3261e; --bad-soft:#f9dedc;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c161a; --surface:#13222a; --fg:#e4eef1; --muted:#97aeb6; --line:#25383f;
+  --accent:#5cc0d3; --accent-soft:#183943; --accent-fg:#06161b;
+  --code-bg:#091115; --code-fg:#d9e6ea; --code-dim:#6f8a93;
+  --ok:#5fd08d; --ok-soft:#14301f; --warn:#f0b64e; --warn-soft:#3a2b0e; --bad:#ff8a80; --bad-soft:#3b1815; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c161a; --surface:#13222a; --fg:#e4eef1; --muted:#97aeb6; --line:#25383f;
+  --accent:#5cc0d3; --accent-soft:#183943; --accent-fg:#06161b;
+  --code-bg:#091115; --code-fg:#d9e6ea; --code-dim:#6f8a93;
+  --ok:#5fd08d; --ok-soft:#14301f; --warn:#f0b64e; --warn-soft:#3a2b0e; --bad:#ff8a80; --bad-soft:#3b1815; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.6 var(--f-body);
+  padding-block:0 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:980px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:24px;font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header{padding-block:44px 28px;display:grid;gap:14px}
+.role{font:500 13px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.lede{max-width:64ch;color:var(--muted);font-size:16px}
+.contact{display:flex;flex-wrap:wrap;gap:10px 18px;font:400 13px/1.4 var(--f-mono);color:var(--muted)}
+.contact span{overflow-wrap:anywhere}
+.note{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--muted);max-width:72ch}
+section{padding-top:44px;display:grid;gap:18px}
+.sub{color:var(--muted);max-width:68ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+
+/* live demo */
+.demo-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button,.btn{font:500 13px/1 var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:9px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--fg)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn:disabled{opacity:.6;cursor:progress}
+.meter{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:0 16px 0}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font:500 12px/1 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font:500 12px/1 var(--f-body);padding:5px 9px;border-radius:999px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.idle{background:var(--accent-soft);color:var(--muted)}
+.summary{display:flex;flex-wrap:wrap;gap:8px 22px;padding:12px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+.summary b{color:var(--fg);font-variant-numeric:tabular-nums}
+
+/* code */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{font:500 13px/1 var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:10px 13px;border-radius:6px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.codeinfo{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.codeinfo p{color:var(--muted);font-size:14px;max-width:70ch;min-width:0}
+.codebox{background:var(--code-bg);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.codebar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;color:var(--code-dim);font:400 12px/1 var(--f-mono);border-bottom:1px solid #ffffff14}
+.codebar button{font:500 12px/1 var(--f-mono);background:transparent;color:var(--code-fg);border:1px solid #ffffff30;border-radius:5px;padding:6px 9px;cursor:pointer}
+pre{margin:0;padding:16px;overflow-x:auto;color:var(--code-fg);font:400 13px/1.6 var(--f-mono);tab-size:4}
+
+/* experience + skills */
+.jobs{display:grid;gap:14px}
+.job{padding:18px;display:grid;gap:8px}
+.job .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline}
+.job .when{font:400 13px/1.4 var(--f-mono);color:var(--muted)}
+.job .co{color:var(--muted);font-size:14px}
+.job ul{margin:4px 0 0;padding-left:18px;display:grid;gap:5px;color:var(--fg)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.skills .panel{padding:16px;display:grid;gap:8px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:400 12.5px/1 var(--f-mono);padding:6px 8px;border-radius:5px;background:var(--accent-soft);color:var(--fg)}
+.themebtn{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:max(14px,env(safe-area-inset-top,0px))}
+footer{padding-top:40px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){.meter i{transition:none}}
+</style>
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="role">.NET engineer · Windows automation · SQL Server</div>
+  <h1>Parthiksinh Vaghela</h1>
+  <p class="lede">Full stack .NET engineer with 7 years of experience building enterprise back ends, data migration tooling and Angular front ends. This page has a working front-end demo and original code samples for the kind of work I do every day.</p>
+  <div class="contact"><span>(660) 454-0001</span><span>parthiksinh.v@gmail.com</span></div>
+  <p class="note">Code samples on this page are original examples written for this portfolio. They are not taken from any employer's systems. The demo uses made-up sample data.</p>
+</header>
+
+<section id="demo" aria-labelledby="demo-h">
+  <h2 id="demo-h">Front-end demo: migration validation board</h2>
+  <p class="sub">A vanilla JavaScript UI that mirrors the validation reports I build for database migrations: source and destination record counts, a status per table, filtering, and a run button. Sample data only.</p>
+  <div class="panel">
+    <div class="demo-head">
+      <div class="seg" role="group" aria-label="Filter by status" id="filters"></div>
+      <button class="btn primary" id="run" type="button">Run validation</button>
+    </div>
+    <div class="meter" aria-hidden="true"><i id="bar"></i></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Table</th><th class="num">Source rows</th><th class="num">Destination rows</th><th class="num">Difference</th><th>Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="summary" id="summary" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="code" aria-labelledby="code-h">
+  <h2 id="code-h">Code samples</h2>
+  <div class="tabs" role="tablist" aria-label="Code samples" id="tabs"></div>
+  <div class="codeinfo"><p id="codedesc"></p></div>
+  <div class="codebox">
+    <div class="codebar"><span id="codefile"></span><button type="button" id="copy">Copy</button></div>
+    <pre><code id="codebody" tabindex="0"></code></pre>
+  </div>
+</section>
+
+<section id="experience" aria-labelledby="exp-h">
+  <h2 id="exp-h">Experience</h2>
+  <div class="jobs">
+    <article class="panel job">
+      <div class="top"><h3>Full Stack Software Engineer</h3><span class="when">June 2022 - Present</span></div>
+      <p class="co">UPS (United Parcel Service), Remote</p>
+      <ul>
+        <li>Build and support enterprise back-end applications and REST APIs in C# on .NET Framework 4.8, .NET 6 and .NET 9.</li>
+        <li>Designed a data migration tool in .NET 9 that moves data from distributed SQL Server databases into centralized ones, with parallel processing and automated validation reports.</li>
+        <li>Wrote PowerShell automation for server administration, deployments and configuration updates.</li>
+        <li>Tune SQL Server queries on tables with millions of rows and use Table-Valued Parameters for bulk upserts.</li>
+        <li>Troubleshoot Windows Services, scheduled tasks, SQL Server jobs and deployments, with root cause analysis.</li>
+      </ul>
+    </article>
+    <article class="panel job">
+      <div class="top"><h3>Full Stack .NET Developer</h3><span class="when">July 2021 - June 2022</span></div>
+      <p class="co">Imperial PFS, Kansas City, MO</p>
+      <ul>
+        <li>Built Angular 8 UI pages and ASP.NET web services for a premium finance lending platform.</li>
+        <li>Implemented form-based authentication and role-based authorization, and wrote SQL Server stored procedures, views and triggers.</li>
+      </ul>
+    </article>
+    <article class="panel job">
+      <div class="top"><h3>Full Stack Application Developer</h3><span class="when">January 2020 - June 2021</span></div>
+      <p class="co">State of Colorado (OIT), Denver, CO</p>
+      <ul>
+        <li>Built the Angular 6 front end and ASP.NET Core Web APIs for the statewide child welfare system, used by about 6,000 people.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="skills" aria-labelledby="sk-h">
+  <h2 id="sk-h">Skills</h2>
+  <div class="skills">
+    <div class="panel"><h3>Back end</h3><div class="chips"><span>C#</span><span>.NET 6/9</span><span>ASP.NET Core</span><span>Web API</span><span>Entity Framework</span><span>LINQ</span><span>WCF</span></div></div>
+    <div class="panel"><h3>Front end</h3><div class="chips"><span>Angular</span><span>TypeScript</span><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>Bootstrap</span></div></div>
+    <div class="panel"><h3>Data</h3><div class="chips"><span>SQL Server</span><span>T-SQL</span><span>Stored procedures</span><span>TVPs</span><span>Query tuning</span><span>SSIS</span></div></div>
+    <div class="panel"><h3>Windows and DevOps</h3><div class="chips"><span>PowerShell</span><span>IIS</span><span>Windows Services</span><span>Azure DevOps</span><span>GitHub</span><span>Docker</span><span>CI/CD</span></div></div>
+    <div class="panel"><h3>Cloud and identity</h3><div class="chips"><span>Microsoft Entra ID</span><span>OAuth 2.0 / OIDC</span><span>JWT</span><span>Azure</span><span>GCP</span></div></div>
+  </div>
+</section>
+
+<footer>Parthiksinh Vaghela · parthiksinh.v@gmail.com</footer>
+</div>
+<button class="btn themebtn" id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
+
+<script>
+/* ---------- demo ---------- */
+var DATA=[
+ {t:'Shipments',s:4218330,d:4218330},
+ {t:'ShipmentEvents',s:18904112,d:18904112},
+ {t:'Customers',s:312904,d:312904},
+ {t:'Addresses',s:645220,d:645198},
+ {t:'Invoices',s:2210477,d:2210477},
+ {t:'InvoiceLines',s:9120043,d:9119980},
+ {t:'Carriers',s:1840,d:1840},
+ {t:'RateCards',s:77310,d:77310}
+];
+var state={filter:'all',results:null,running:false};
+var fmt=function(n){return n.toLocaleString('en-US')};
+function statusOf(r){var diff=r.s-r.d; if(diff===0)return 'ok'; return Math.abs(diff)<=50?'warn':'bad'}
+var LABEL={ok:'Match',warn:'Review',bad:'Mismatch',idle:'Not run'};
+function renderFilters(){
+  var box=document.getElementById('filters');box.innerHTML='';
+  [['all','All'],['ok','Match'],['warn','Review'],['bad','Mismatch']].forEach(function(f){
+    var b=document.createElement('button');b.type='button';b.textContent=f[1];
+    b.setAttribute('aria-pressed',String(state.filter===f[0]));
+    b.onclick=function(){state.filter=f[0];renderFilters();renderRows()};
+    box.appendChild(b)});
+}
+function renderRows(){
+  var tb=document.getElementById('rows');tb.innerHTML='';
+  var shown=0,counts={ok:0,warn:0,bad:0};
+  DATA.forEach(function(r,i){
+    var done=state.results&&state.results[i]!==undefined;
+    var st=done?statusOf(r):'idle';
+    if(done)counts[st]++;
+    if(state.filter!=='all'&&st!==state.filter)return;
+    shown++;
+    var tr=document.createElement('tr');
+    var diff=r.s-r.d;
+    tr.innerHTML='<td></td><td class="num"></td><td class="num"></td><td class="num"></td><td><span class="pill"></span></td>';
+    var c=tr.children;
+    c[0].textContent=r.t;
+    c[1].textContent=fmt(r.s);
+    c[2].textContent=done?fmt(r.d):'-';
+    c[3].textContent=done?(diff===0?'0':'-'+fmt(diff)):'-';
+    c[4].firstChild.className='pill '+st;
+    c[4].firstChild.textContent=LABEL[st];
+    tb.appendChild(tr);
+  });
+  if(!shown){var tr=document.createElement('tr');tr.innerHTML='<td colspan="5">No tables match this filter.</td>';tb.appendChild(tr)}
+  var total=state.results?Object.keys(state.results).length:0;
+  document.getElementById('summary').innerHTML=
+   '<span><b>'+total+'</b> of '+DATA.length+' tables checked</span><span><b>'+counts.ok+'</b> match</span><span><b>'+counts.warn+'</b> to review</span><span><b>'+counts.bad+'</b> mismatched</span>';
+}
+function run(){
+  if(state.running)return;
+  state.running=true;state.results={};
+  var btn=document.getElementById('run'),bar=document.getElementById('bar');
+  btn.disabled=true;btn.textContent='Validating...';bar.style.width='0';
+  var i=0;
+  (function step(){
+    if(i>=DATA.length){state.running=false;btn.disabled=false;btn.textContent='Run validation again';renderRows();return}
+    state.results[i]=true;i++;
+    bar.style.width=Math.round(i/DATA.length*100)+'%';
+    renderRows();
+    setTimeout(step,260);
+  })();
+}
+document.getElementById('run').onclick=run;
+renderFilters();renderRows();
+
+/* ---------- code samples ---------- */
+var SAMPLES=[
+{id:'api',tab:'.NET API with Entra ID',file:'Program.cs',desc:'ASP.NET Core Web API protected with Microsoft Entra ID bearer tokens. A policy requires an app role, and the endpoint reads the caller from the validated token.',code:String.raw`using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Validate JWT bearer tokens issued by Microsoft Entra ID.
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+builder.Services.AddAuthorization(options =>
+{
+    // Callers must hold the "Shipments.Read" app role in the token.
+    options.AddPolicy("CanReadShipments", policy =>
+        policy.RequireRole("Shipments.Read"));
+});
+
+builder.Services.AddScoped<IShipmentService, ShipmentService>();
+
+var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapGet("/api/shipments/{id:int}", async (int id, IShipmentService svc, HttpContext ctx) =>
+    {
+        var caller = ctx.User.FindFirst("preferred_username")?.Value ?? "unknown";
+        var shipment = await svc.GetAsync(id);
+        return shipment is null ? Results.NotFound() : Results.Ok(new { shipment, requestedBy = caller });
+    })
+    .RequireAuthorization("CanReadShipments");
+
+app.Run();
+
+public interface IShipmentService { Task<Shipment?> GetAsync(int id); }
+public record Shipment(int Id, string Status, DateTime UpdatedUtc);
+
+public class ShipmentService : IShipmentService
+{
+    public Task<Shipment?> GetAsync(int id) =>
+        Task.FromResult<Shipment?>(new Shipment(id, "In transit", DateTime.UtcNow));
+}
+
+/* appsettings.json
+"AzureAd": {
+  "Instance": "https://login.microsoftonline.com/",
+  "TenantId": "<tenant-id>",
+  "ClientId": "<api-app-registration-id>",
+  "Audience": "api://<api-app-registration-id>"
+}
+*/`},
+{id:'migrate',tab:'Parallel migration',file:'TableMigrator.cs',desc:'Copies tables between SQL Server databases in parallel with SqlBulkCopy, then compares source and destination row counts and logs any mismatch.',code:String.raw`using Microsoft.Data.SqlClient;
+using System.Collections.Concurrent;
+
+public sealed record MigrationResult(string Table, long Source, long Destination)
+{
+    public bool Matches => Source == Destination;
+}
+
+public sealed class TableMigrator
+{
+    private readonly string _sourceConn;
+    private readonly string _destConn;
+    private readonly ILogger<TableMigrator> _log;
+
+    public TableMigrator(string sourceConn, string destConn, ILogger<TableMigrator> log)
+        => (_sourceConn, _destConn, _log) = (sourceConn, destConn, log);
+
+    public async Task<IReadOnlyList<MigrationResult>> MigrateAsync(
+        IEnumerable<string> tables, int maxParallel, CancellationToken ct)
+    {
+        var results = new ConcurrentBag<MigrationResult>();
+
+        await Parallel.ForEachAsync(tables,
+            new ParallelOptions { MaxDegreeOfParallelism = maxParallel, CancellationToken = ct },
+            async (table, token) =>
+            {
+                try
+                {
+                    await CopyTableAsync(table, token);
+                    results.Add(await ValidateAsync(table, token));
+                }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex, "Migration failed for {Table}", table);
+                    results.Add(new MigrationResult(table, -1, -1));
+                }
+            });
+
+        foreach (var r in results.Where(r => !r.Matches))
+            _log.LogWarning("Count mismatch on {Table}: source {Src}, destination {Dst}",
+                r.Table, r.Source, r.Destination);
+
+        return results.OrderBy(r => r.Table).ToList();
+    }
+
+    private async Task CopyTableAsync(string table, CancellationToken ct)
+    {
+        await using var src = new SqlConnection(_sourceConn);
+        await using var dst = new SqlConnection(_destConn);
+        await src.OpenAsync(ct);
+        await dst.OpenAsync(ct);
+
+        await using var cmd = new SqlCommand("SELECT * FROM " + QuoteName(table), src);
+        await using var reader = await cmd.ExecuteReaderAsync(ct);
+
+        using var bulk = new SqlBulkCopy(dst)
+        {
+            DestinationTableName = QuoteName(table),
+            BatchSize = 10_000,
+            BulkCopyTimeout = 0
+        };
+        await bulk.WriteToServerAsync(reader, ct);
+    }
+
+    private async Task<MigrationResult> ValidateAsync(string table, CancellationToken ct) =>
+        new(table, await CountAsync(_sourceConn, table, ct), await CountAsync(_destConn, table, ct));
+
+    private static async Task<long> CountAsync(string conn, string table, CancellationToken ct)
+    {
+        await using var c = new SqlConnection(conn);
+        await c.OpenAsync(ct);
+        await using var cmd = new SqlCommand("SELECT COUNT_BIG(*) FROM " + QuoteName(table), c);
+        return (long)(await cmd.ExecuteScalarAsync(ct))!;
+    }
+
+    // Table names come from an allow-list; QuoteName keeps them safe in dynamic SQL.
+    private static string QuoteName(string name) => "[" + name.Replace("]", "]]") + "]";
+}`},
+{id:'ps',tab:'PowerShell automation',file:'Update-AppConfig.ps1',desc:'Updates a setting in appsettings.json on several application servers, restarts a Windows service, and reports the result per server.',code:String.raw`#requires -Version 5.1
+[CmdletBinding(SupportsShouldProcess)]
+param(
+    [Parameter(Mandatory)] [string[]] $ComputerName,
+    [Parameter(Mandatory)] [string]   $ConfigPath,
+    [Parameter(Mandatory)] [string]   $SettingName,
+    [Parameter(Mandatory)] [string]   $SettingValue,
+    [string] $ServiceName = 'OrderProcessingService'
+)
+
+$results = foreach ($server in $ComputerName) {
+    try {
+        if ($PSCmdlet.ShouldProcess($server, "Set $SettingName and restart $ServiceName")) {
+            Invoke-Command -ComputerName $server -ErrorAction Stop -ArgumentList $ConfigPath, $SettingName, $SettingValue, $ServiceName -ScriptBlock {
+                param($path, $name, $value, $svc)
+
+                # Back up before changing anything.
+                Copy-Item $path "$path.bak" -Force
+
+                $json = Get-Content $path -Raw | ConvertFrom-Json
+                $json.$name = $value
+                $json | ConvertTo-Json -Depth 10 | Set-Content $path -Encoding UTF8
+
+                Restart-Service -Name $svc -ErrorAction Stop
+                (Get-Service -Name $svc).Status
+            } | ForEach-Object {
+                [pscustomobject]@{ Server = $server; Outcome = 'Updated'; ServiceStatus = $_ }
+            }
+        }
+    }
+    catch {
+        [pscustomobject]@{ Server = $server; Outcome = "Failed: $($_.Exception.Message)"; ServiceStatus = 'Unknown' }
+    }
+}
+
+$results | Format-Table -AutoSize`},
+{id:'ng',tab:'Angular component',file:'shipment-row.component.ts',desc:'A standalone Angular component that receives data with @Input, sends events with @Output, and filters a list with a custom pipe.',code:String.raw`import { Component, EventEmitter, Input, Output, Pipe, PipeTransform } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+export interface Shipment {
+  id: number;
+  destination: string;
+  status: 'Delivered' | 'In transit' | 'Delayed';
+}
+
+@Pipe({ name: 'search', standalone: true })
+export class SearchPipe implements PipeTransform {
+  transform(items: Shipment[], term: string): Shipment[] {
+    const t = term.trim().toLowerCase();
+    return t ? items.filter(s => s.destination.toLowerCase().includes(t)) : items;
+  }
+}
+
+@Component({
+  selector: 'app-shipment-row',
+  standalone: true,
+  imports: [CommonModule],
+  template: ${'`'}
+    <div class="row" [class.delayed]="shipment.status === 'Delayed'">
+      <span>#{{ shipment.id }}</span>
+      <span>{{ shipment.destination }}</span>
+      <span class="badge">{{ shipment.status }}</span>
+      <button type="button" (click)="selected.emit(shipment)">Details</button>
+    </div>
+  ${'`'}
+})
+export class ShipmentRowComponent {
+  @Input({ required: true }) shipment!: Shipment;   // parent to child
+  @Output() selected = new EventEmitter<Shipment>(); // child to parent
+}
+
+@Component({
+  selector: 'app-shipment-list',
+  standalone: true,
+  imports: [CommonModule, ShipmentRowComponent, SearchPipe],
+  template: ${'`'}
+    <input #box placeholder="Search destination" (input)="term = box.value" />
+    <app-shipment-row
+      *ngFor="let s of shipments | search: term"
+      [shipment]="s"
+      (selected)="open($event)">
+    </app-shipment-row>
+  ${'`'}
+})
+export class ShipmentListComponent {
+  term = '';
+  shipments: Shipment[] = [
+    { id: 1001, destination: 'Baltimore, MD', status: 'In transit' },
+    { id: 1002, destination: 'Denver, CO', status: 'Delivered' },
+    { id: 1003, destination: 'Kansas City, MO', status: 'Delayed' }
+  ];
+  open(s: Shipment) { console.log('Selected', s.id); }
+}`}
+];
+var cur=0;
+function showSample(i){
+  cur=i;var s=SAMPLES[i];
+  document.querySelectorAll('#tabs button').forEach(function(b,k){b.setAttribute('aria-selected',String(k===i));b.tabIndex=k===i?0:-1});
+  document.getElementById('codedesc').textContent=s.desc;
+  document.getElementById('codefile').textContent=s.file;
+  document.getElementById('codebody').textContent=s.code;
+  document.getElementById('copy').textContent='Copy';
+}
+SAMPLES.forEach(function(s,i){
+  var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=s.tab;
+  b.onclick=function(){showSample(i)};
+  b.onkeydown=function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+      var n=(i+(e.key==='ArrowRight'?1:SAMPLES.length-1))%SAMPLES.length;showSample(n);
+      document.querySelectorAll('#tabs button')[n].focus();
+    }};
+  document.getElementById('tabs').appendChild(b);
+});
+showSample(0);
+document.getElementById('copy').onclick=function(){
+  var btn=this,text=SAMPLES[cur].code;
+  function ok(){btn.textContent='Copied'}
+  function fallback(){
+    var r=document.createRange();r.selectNodeContents(document.getElementById('codebody'));
+    var sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);btn.textContent='Selected, press Ctrl+C';
+  }
+  try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(e){fallback()}
+};
+
+/* ---------- theme ---------- */
+document.getElementById('theme').onclick=function(){
+  var root=document.documentElement;
+  var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  root.setAttribute('data-theme',dark?'light':'dark');
+};
+</script>
+
+</body>
+</html>
